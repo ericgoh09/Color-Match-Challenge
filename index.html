@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Match Challenge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin: 20px auto;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            margin-bottom: 32px;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #ff6b6b, #ff8e53, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            animation: titlePulse 2s infinite;
+        }
+        
+        @keyframes titlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            max-width: 500px;
+            margin: 0 auto 24px;
+            line-height: 1.5;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 32px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .rgb-display {
+            font-size: 2rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 16px 30px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+            color: #ff6b6b;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
+        
+        .scores {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .score-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            min-width: 120px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .score-label {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .score-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ff6b6b;
+        }
+        
+        .colors-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .color-option {
+            height: 150px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transform: scale(1);
+            animation: popIn 0.5s ease-out;
+            animation-fill-mode: backwards;
+            border: 3px solid white;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .color-option:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255,255,255,0.3);
+            transform: rotate(25deg);
+            transition: all 0.6s;
+        }
+        
+        button:hover::after {
+            left: 120%;
+        }
+        
+        button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+        
+        button#new-game {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+        }
+        
+        button#hint {
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+        }
+        
+        .difficulty {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .difficulty-btn {
+            padding: 12px 28px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #666;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .difficulty-btn.active {
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .message {
+            font-size: 1.6rem;
+            margin: 30px 0 10px;
+            min-height: 60px;
+            font-weight: 700;
+            padding: 16px 25px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            max-width: 80%;
+            margin: 30px auto 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s;
+        }
+        
+        .correct {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.15);
+        }
+        
+        .incorrect {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.15);
+        }
+        
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 1rem;
+            padding: 20px;
+            font-weight: 600;
+            animation: fadeIn 1s;
+        }
+        
+        .instruction {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 35px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            animation: slideUp 0.7s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .instruction h3 {
+            color: #ff6b6b;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+        }
+        
+        .instruction ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+        
+        .instruction li {
+            margin-bottom: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.5;
+            font-size: 1.05rem;
+        }
+        
+        .instruction li i {
+            color: #4CAF50;
+            margin-top: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .bounce {
+            animation: bounce 0.5s;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .colors-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 18px;
+            }
+            
+            .rgb-display {
+                font-size: 1.5rem;
+                padding: 12px 20px;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .scores {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .controls {
+                gap: 15px;
+            }
+            
+            button {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+            
+            .message {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .colors-container {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .color-option {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-palette"></i> Color Match Challenge</h1>
+            <p class="subtitle">Test your color perception skills by matching the RGB value to the correct color!</p>
+        </header>
+        
+        <div class="game-info">
+            <div class="rgb-display">RGB(255, 0, 128)</div>
+            <div class="scores">
+                <div class="score-box">
+                    <span class="score-label">SCORE</span>
+                    <span class="score-value" id="score">0</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-label">STREAK</span>
+                    <span class="score-value" id="streak">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="colors-container" id="colors-container">
+            <!-- Color options will be generated here -->
+        </div>
+        
+        <div class="message" id="message">Select the color that matches the RGB value above!</div>
+        
+        <div class="controls">
+            <button id="new-game"><i class="fas fa-sync-alt"></i> New Colors</button>
+            <button id="hint"><i class="fas fa-lightbulb"></i> Give Me a Hint</button>
+        </div>
+        
+        <div class="difficulty">
+            <button class="difficulty-btn active" data-difficulty="easy">Easy</button>
+            <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+            <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+        </div>
+        
+        <div class="instruction">
+            <h3><i class="fas fa-info-circle"></i> How to Play</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Match the RGB value displayed with one of the color boxes</li>
+                <li><i class="fas fa-star"></i> Easy: 3 colors (1 point), Medium: 6 colors (2 points), Hard: 9 colors (3 points)</li>
+                <li><i class="fas fa-fire"></i> Build your streak for consecutive correct answers</li>
+                <li><i class="fas fa-lightbulb"></i> Use hints sparingly - they cost 1 point</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        Created with ❤️ by Goh Kok Dong | All Rights Reserved &copy; 2025
+    </footer>
+    
+    <script>
+        // Game variables
+        let score = 0;
+        let streak = 0;
+        let correctColor;
+        let difficulty = "easy";
+        
+        // DOM elements
+        const colorsContainer = document.getElementById('colors-container');
+        const rgbDisplay = document.querySelector('.rgb-display');
+        const scoreElement = document.getElementById('score');
+        const streakElement = document.getElementById('streak');
+        const messageElement = document.getElementById('message');
+        const newGameButton = document.getElementById('new-game');
+        const hintButton = document.getElementById('hint');
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        
+        // Initialize game
+        initGame();
+        
+        // Event listeners
+        newGameButton.addEventListener('click', () => {
+            newGameButton.classList.add('bounce');
+            setTimeout(() => {
+                newGameButton.classList.remove('bounce');
+                initGame();
+            }, 500);
+        });
+        
+        hintButton.addEventListener('click', () => {
+            hintButton.classList.add('bounce');
+            setTimeout(() => {
+                hintButton.classList.remove('bounce');
+                giveHint();
+            }, 500);
+        });
+        
+        difficultyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.add('bounce');
+                setTimeout(() => {
+                    button.classList.remove('bounce');
+                    difficultyButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    difficulty = button.dataset.difficulty;
+                    initGame();
+                }, 300);
+            });
+        });
+        
+        // Game functions
+        function initGame() {
+            // Clear message
+            messageElement.textContent = 'Select the color that matches the RGB value!';
+            messageElement.className = 'message';
+            
+            // Clear container
+            colorsContainer.innerHTML = '';
+            
+            // Generate colors based on difficulty
+            let colorCount;
+            switch(difficulty) {
+                case 'easy':
+                    colorCount = 3;
+                    break;
+                case 'medium':
+                    colorCount = 6;
+                    break;
+                case 'hard':
+                    colorCount = 9;
+                    break;
+            }
+            
+            // Generate random colors
+            const colors = [];
+            for (let i = 0; i < colorCount; i++) {
+                colors.push(generateRandomColor());
+            }
+            
+            // Pick a random color as the correct one
+            correctColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Update RGB display
+            rgbDisplay.textContent = `RGB(${correctColor.r}, ${correctColor.g}, ${correctColor.b})`;
+            
+            // Create color options
+            colors.forEach((color, index) => {
+                const colorElement = document.createElement('div');
+                colorElement.className = 'color-option';
+                colorElement.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
+                colorElement.style.animationDelay = `${index * 0.1}s`;
+                
+                colorElement.addEventListener('click', () => {
+                    checkAnswer(color, colorElement);
+                });
+                
+                colorsContainer.appendChild(colorElement);
+            });
+        }
+        
+        function generateRandomColor() {
+            return {
+                r: Math.floor(Math.random() * 256),
+                g: Math.floor(Math.random() * 256),
+                b: Math.floor(Math.random() * 256)
+            };
+        }
+        
+        function checkAnswer(color, element) {
+            if (color === correctColor) {
+                // Correct answer
+                score += difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3;
+                streak++;
+                
+                // Update score display
+                scoreElement.textContent = score;
+                streakElement.textContent = streak;
+                
+                // Display success message
+                messageElement.textContent = 'Correct! Great job!';
+                messageElement.className = 'message correct';
+                
+                // Visual feedback
+                element.classList.add('pulse');
+                element.style.boxShadow = '0 0 30px #4cff4c, 0 0 50px rgba(76, 255, 76, 0.5)';
+                element.style.borderColor = '#4cff4c';
+                
+                // Start new round after a delay
+                setTimeout(() => {
+                    element.classList.remove('pulse');
+                    initGame();
+                }, 1500);
+            } else {
+                // Wrong answer
+                streak = 0;
+                streakElement.textContent = streak;
+                
+                // Display failure message
+                messageElement.textContent = 'Oops! Try again!';
+                messageElement.className = 'message incorrect';
+                
+                // Visual feedback
+                element.animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], {
+                    duration: 400
+                });
+                
+                element.style.opacity = '0.6';
+                element.style.transform = 'scale(0.95)';
+            }
+        }
+        
+        function giveHint() {
+            // Highlight the correct color briefly
+            const colorOptions = document.querySelectorAll('.color-option');
+            
+            colorOptions.forEach(option => {
+                const bgColor = option.style.backgroundColor;
+                const rgb = bgColor.match(/\d+/g);
+                
+                if (rgb && rgb.length === 3) {
+                    const r = parseInt(rgb[0]);
+                    const g = parseInt(rgb[1]);
+                    const b = parseInt(rgb[2]);
+                    
+                    if (r === correctColor.r && g === correctColor.g && b === correctColor.b) {
+                        option.animate([
+                            { transform: 'scale(1)' },
+                            { transform: 'scale(1.2)' },
+                            { transform: 'scale(1)' }
+                        ], {
+                            duration: 1000,
+                            iterations: 1
+                        });
+                        
+                        option.style.boxShadow = '0 0 30px #ffff00, 0 0 50px rgba(255, 255, 0, 0.5)';
+                        option.style.borderColor = '#ffff00';
+                        
+                        setTimeout(() => {
+                            option.style.boxShadow = '';
+                            option.style.borderColor = '';
+                        }, 1000);
+                    }
+                }
+            });
+            
+            // Penalty for using hint
+            score = Math.max(0, score - 1);
+            scoreElement.textContent = score;
+            messageElement.textContent = 'Hint used! -1 point';
+            messageElement.className = 'message';
+            
+            // Animate score
+            scoreElement.animate([
+                { transform: 'scale(1)', color: '#ff6b6b' },
+                { transform: 'scale(1.5)', color: '#f44336' },
+                { transform: 'scale(1)', color: '#ff6b6b' }
+            ], {
+                duration: 600
+            });
+        }
+    </script>
+</body>
+</html>
