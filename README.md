@@ -33,11 +33,11 @@ Simply open the `index.html` file in any modern web browser to start playing. No
 
 ## Game Controls
 
-| Button | Description | Preview |
-|--------|-------------|---------|
-| **New Colors** | Generate a new set of colors | ![New Colors Button](https://via.placeholder.com/200x60/5d69be/ffffff?text=New+Colors) |
-| **Give Me a Hint** | Briefly highlight the correct color (costs 1 point) | ![Hint Button](https://via.placeholder.com/200x60/ffd740/000000?text=Give+Me+a+Hint) |
-| **Difficulty Buttons** | Switch between Easy, Medium, and Hard modes | ![Difficulty Buttons](https://via.placeholder.com/400x60/302b63/ffffff?text=Easy+Medium+Hard) |
+| Button | Description |
+|--------|-------------|
+| **New Colors** | Generate a new set of colors |
+| **Give Me a Hint** | Briefly highlight the correct color (costs 1 point) |
+| **Difficulty Buttons** | Switch between Easy, Medium, and Hard modes |
 
 ## Bug Fixes in This Version
 
