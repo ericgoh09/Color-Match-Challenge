@@ -1,6 +1,6 @@
 # Color Match Challenge - Premium Edition
 
-![Color Match Challenge Banner](https://via.placeholder.com/1200x400/302b63/ffffff?text=Color+Match+Challenge+Premium)
+![Color Match Challenge Banner](https://github.com/ericgoh09/Color-Match-Challenge/blob/main/assets/Banner.png)
 
 ## Overview
 
