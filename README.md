@@ -29,7 +29,8 @@ Color Match Challenge is a visually stunning game that tests your ability to mat
 
 ## Getting Started
 
-Simply open the `index.html` file in any modern web browser to start playing. No installation required!
+Simply open the `LINK` below to start playing. No installation required!
+https://ericgoh09.github.io/Color-Match-Challenge/
 
 ## Game Controls
 
