@@ -1,10 +1,10 @@
-# Color Match Challenge - Premium Edition
+# Color Match Challenge
 
 ![Color Match Challenge Banner](https://github.com/ericgoh09/Color-Match-Challenge/blob/main/assets/Banner.png)
 
 ## Overview
 
-Color Match Challenge is a visually stunning game that tests your ability to match RGB color values to actual colors. With a sleek glass-morphism design, dynamic animations, and challenging gameplay, this premium edition offers an engaging experience for players of all skill levels.
+Color Match Challenge is a visually stunning game that tests your ability to match RGB color values to actual colors. With a sleek glass-morphism design, dynamic animations, and challenging gameplay, this game offers an engaging experience for players of all skill levels.
 
 ## Features
 
